@@ -5,9 +5,19 @@ import sys
 class CPU:
     """Main CPU class."""
 
-    def __init__(self):
+    def __init__(self, ram):
         """Construct a new CPU."""
-        pass
+        self.reg = [0] * 8
+        self.pc = 0       
+        self.ram = [0] * 256        
+
+    def ram_read(self, MAR): 
+        # accept address to read & rtn value        
+        return self.ram(MAR)            
+
+    def ram_write(self, MDR):
+        # accept a value to write & address to write it to
+        return self.ram(MDR)
 
     def load(self):
         """Load a program into memory."""
@@ -61,5 +71,34 @@ class CPU:
         print()
 
     def run(self):
-        """Run the CPU."""
+        """Run the CPU."""       
+        isRunning = True
+        # look to see what instructions have been recieved
+        # while isRunning:
+        #     if not INST[HLT]:
+        #       self.ram_read()
+        #     else if INST is HLT: 
+                # HLT
+        #         
+        
+        
         pass
+
+# create a list of all instructions
+INST = {
+    HLT  = 0b00000001,
+    LDI  = 0b10000010,
+    PRN  = 0b01000111,
+    MUL  = 0b10100010,
+    ADD  = 0b10100000,
+    SUB  = 0b10100001,
+    DIV  = 0b10100011,
+    PUSH = 0b01000101,
+    POP  = 0b01000110,
+    CALL = 0b01010000,
+    RET  = 0b00010001,
+    CMP  = 0b10100111,
+    JMP  = 0b01010100,
+    JEQ  = 0b01010101,
+    JNE  = 0b01010110,
+}
