@@ -1,5 +1,6 @@
 # OPERATION PRINT HELLO WORLD
 # give the computer a value
+import sys
 PRINT_WORLD     = 1
 HALT            = 2
 PRINT_NUM       = 3
@@ -73,3 +74,20 @@ while running:
         registers[reg_addr_1] = val1 + val2
         # move to next command
         pc += 3
+
+# load a program into memory
+# reads files & uses an argument to get specific info
+print(sys.argv)
+memory = []
+if len(sys.argv) != 2:
+    print('wrong # of arguments')
+    sys.exit(1)
+with open(sys.argv[1]) as f:
+    for line in f:
+        # split the comments on the # char
+        line_split = line.split('#')
+        command = line_split[0].strip()
+        if command == '':
+            continue
+        command_num = int(command, 2)
+        memory.append(command_num)
