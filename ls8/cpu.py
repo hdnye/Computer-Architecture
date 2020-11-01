@@ -1,5 +1,4 @@
 """CPU functionality."""
-
 import sys
 
 class CPU:
@@ -7,17 +6,20 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
+        self.ram = [0] * 256
         self.reg = [0] * 8
-        self.pc = 0       
-        self.ram = [0] * 256       
+        self.pc = 0    
+        self.flag = 0b00000000
+        self.mar = 0
+        self.mdr = 0       
 
-    def ram_read(self, MAR): 
+    def ram_read(self, mar): 
         # accept address to read & rtn value        
-        return self.ram[MAR]            
+        return self.ram[mar]            
 
-    def ram_write(self, MDR):
+    def ram_write(self, mar, mdr):
         # accept a value to write & address to write it to
-        return self.ram[MDR] 
+        return self.ram[mar] = mdr
 
     def load(self):
         """Load a program into memory."""
@@ -26,34 +28,32 @@ class CPU:
 
         # For now, we've just hardcoded a program:
 
-        program = [
-            # From print8.ls8
-            0b10000010, # LDI R0,8
-            0b00000000,
-            0b00001000,
-            0b01000111, # PRN R0
-            0b00000000,
-            0b00000001, # HLT
-        ]
+        # program = [
+        #     # From print8.ls8
+        #     0b10000010, # LDI R0,8
+        #     0b00000000,
+        #     0b00001000,
+        #     0b01000111, # PRN R0
+        #     0b00000000,
+        #     0b00000001, # HLT
+        # ]
 
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
-        # print(sys.argv)
-        # memory = []
-        # if len(sys.argv) != 2:
-        #     print('wrong # of arguments')
-        #     sys.exit(1)
-        # with open(sys.argv[1]) as f:
-        #     for line in f:
-        #         line_split = line.split('#')
-        #         command = line_split[0].strip()
-        #         if command == '':
-        #             continue
-        #         command_num = int(command, 10)
-        #         memory.append(command_num)
-        #         address += 1
-
+        # for instruction in program:
+        #     self.ram[address] = instruction
+        #     address += 1
+        print(sys.argv)        
+        if len(sys.argv) != 2:
+            print('wrong # of arguments')
+            sys.exit(1)
+        with open(sys.argv[1]) as f:
+            for line in f:
+                line_split = line.split('#')
+                command = line_split[0].strip()
+                if command == '':
+                    continue
+                command_num = int(command, 2)
+                self.ram_write[command_num]
+                address += 1
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
